@@ -1,0 +1,12 @@
+- Inicializar módulo de encriptación:
+
+	EncryptationManager.config()
+	    .setAESKey("7x-_2bIjMSp2IYCxGw4&o5K1xG#4X#SQ");
+
+- Encriptar, los metodos lanzan la excepcion EncryptException:
+
+	Encrypt encrypt = EncryptationManager.getEncrypt();
+	encrypt.encryptAES(value);
+	encrypt.decryptAES(value);
+	encrypt.ecryptMD5(value);
+    

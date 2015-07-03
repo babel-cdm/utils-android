@@ -1,0 +1,83 @@
+- Creando una instancia de AsyncJob
+
+	new AsyncJob.AsyncJobBuilder<Boolean>()
+	        .doInBackground(new AsyncJob.AsyncAction<Boolean>() {
+	            @Override
+	            public Boolean doAsync() {
+	                // Do some background work
+	                try {
+	                    Thread.sleep(1000);
+	                } catch (InterruptedException e) {
+	                    e.printStackTrace();
+	                }
+	                return true;
+	            }
+	        })
+	        .doWhenFinished(new AsyncJob.AsyncResultAction<Boolean>() {
+	            @Override
+	            public void onResult(Boolean result) {
+	                Toast.makeText(context, "Result was: " + result, Toast.LENGTH_SHORT).show();
+	        }
+	}).create().start();    
+
+- Utilizando un método estático:
+
+	AsyncJob.doInBackground(new AsyncJob.OnBackgroundJob() {
+	    @Override
+	    public void doOnBackground() {
+
+	        // Pretend it's doing some background processing
+	        try {
+	            Thread.sleep(1000);
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+
+	        // Create a fake result (MUST be final)
+	        final boolean result = true;
+
+	        // Send the result to the UI thread and show it on a Toast
+	        AsyncJob.doOnMainThread(new AsyncJob.OnMainThreadJob() {
+	            @Override
+	            public void doInUIThread() {
+	                Toast.makeText(context, "Result was: "+ result, Toast.LENGTH_SHORT).show();
+	            }
+	        });
+	    }
+	});
+
+- Encoloar diferentes tareas asincornas, hasta que no acabe una no comenzará otra.
+ 
+	// Create a job to run on background
+	AsyncJob.OnBackgroundJob job = new AsyncJob.OnBackgroundJob() {
+	    @Override
+	    public void doOnBackground() {
+	        // Pretend to do some background processing
+	        try {
+	            Thread.sleep(1000);
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+
+	        // This toast should show a difference of 1000ms between calls
+	        AsyncJob.doOnMainThread(new AsyncJob.OnMainThreadJob() {
+	            @Override
+	            public void doInUIThread() {
+	                Toast.makeText(context, "Finished on: "+System.currentTimeMillis(), Toast.LENGTH_SHORT).show();
+	            }
+	        });
+	    }
+	};
+
+	// This ExecutorService will run only a thread at a time
+	ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+	// Send 5 jobs to queue which will be executed one at a time
+	for(int i = 0; i < 5; i++) {
+	    AsyncJob.doInBackground(job, executorService);
+	}
+
+
+
+
+

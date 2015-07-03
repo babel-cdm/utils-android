@@ -1,0 +1,53 @@
+NOTAS:
+
+1) PASSWORD debe de ser indicado por el usuario, actualmente se esta buscando una mejor solución para esto.
+2) SecureData.init() tarda entre 200-500ms dependiendo del dispositivo.
+3) SALT KEY es guardado como un texto plano actualmente. Se esta buscando una mejor solución para esto.
+
+---------------------------------
+
+- Inicializar el entorno seguro, necesario iniciar un callback ya que pueden llevar entre 200-400ms inicializar el entorno:
+
+	SecureData.init(context, PASSWORD, new SecureData.Callback() {
+	    @Override
+	    public void onSuccess() {
+	    }
+
+	    @Override
+	    public void onFail(Exception e) {
+	    }
+	});
+
+- Inicializar SecureData en modo no seguro, en dispositivos donde no sea compatible AES y PBE algorithm se inciará en este modo de forma automática:
+
+	SecureData.initWithoutEncryption(context);
+
+- Guardar:
+
+SecureData.put(key, T);
+SecureData.put(key, List<T>);
+
+- Guardar varios elementos a la vez:
+
+	SecureData.chain()
+     .put(KEY_LIST, List<T>)
+     .put(KEY_ANOTHER,"test")
+     .commit();
+
+- Obtener:
+	T result = SecureData.get(key);
+	T result = SecureData.get(key, T); // Indicando valor por defecto
+
+- Eliminar
+	SecureData.remove(key);
+
+- Eliminar varios elementos a la vez:
+	SecureData.remove(KEY_LIST, KEY_NAME);	
+
+- Comprobar si existe un elemento:
+	boolean contains = SecureData.contains(key);	
+
+
+
+
+
