@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import library.utils.R;
 import library.utils.navigation.interfaces.Exceptions;
 import library.utils.navigation.interfaces.NavigationController;
 
@@ -12,8 +13,8 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
     protected Integer mContainer = null;
     protected NavigationManager mNavigationManager;
 
-    protected FragmentAnimation animation = new FragmentAnimation(android.R.animator.fade_in,
-            android.R.animator.fade_out, android.R.animator.fade_in, android.R.animator.fade_out);
+    protected FragmentAnimation animation = new FragmentAnimation(
+            R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

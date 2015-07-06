@@ -102,7 +102,7 @@ public class NavigationManager {
                 FragmentTransaction ft = fm.beginTransaction();
                 processClearBackstack(flags);
                 processAddToBackstackFlag(tag, flags, ft);
-                //processAnimations(animation, ft);
+                processAnimations(animation, ft);
                 performTransaction(frag, flags, ft, containerId);
             } else {
                 fm.popBackStack(((NavigationFragment) frag).getFragmentTag(), 0);
