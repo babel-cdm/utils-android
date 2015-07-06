@@ -81,6 +81,7 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
     @Override
     public void onBackPressed() {
         if (mNavigationManager.canActivityFinish()) {
+            mNavigationManager.popBackStack(mContainer);
             finish();
         } else {
             mNavigationManager.popBackStack(mContainer);

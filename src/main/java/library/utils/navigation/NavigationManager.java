@@ -102,7 +102,7 @@ public class NavigationManager {
                 FragmentTransaction ft = fm.beginTransaction();
                 processClearBackstack(flags);
                 processAddToBackstackFlag(tag, flags, ft);
-                processAnimations(animation, ft);
+                //processAnimations(animation, ft);
                 performTransaction(frag, flags, ft, containerId);
             } else {
                 fm.popBackStack(((NavigationFragment) frag).getFragmentTag(), 0);
@@ -163,7 +163,7 @@ public class NavigationManager {
      */
     protected void processAnimations(FragmentAnimation animation, FragmentTransaction ft) {
         if (animation != null) {
-            /*if (animation.isCompletedAnimation()) {
+            if (animation.isCompletedAnimation()) {
                 ft.setCustomAnimations(animation.getEnterAnim(), animation.getExitAnim(),
                         animation.getPushInAnim(), animation.getPopOutAnim());
             } else {
@@ -173,7 +173,7 @@ public class NavigationManager {
                 for (LollipopAnim sharedElement : animation.getSharedViews()) {
                     ft.addSharedElement(sharedElement.view, sharedElement.name);
                 }
-            }*/
+            }
         }
     }
 
@@ -283,6 +283,6 @@ public class NavigationManager {
      * @return TRUE if the activity is finishable, FALSE otherwise
      */
     public boolean canActivityFinish() {
-        return getBackStackEntryCount() <= 1 || peek().isEntryFragment();
+        return getBackStackEntryCount() <= 1 || peek() == null ||peek().isEntryFragment();
     }
 }
