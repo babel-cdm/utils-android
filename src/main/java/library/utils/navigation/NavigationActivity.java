@@ -88,6 +88,5 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
     @Override
     public void onBackPressed() {
         mOnActionNavigation.onBackPressedNavigation();
-        mNavigationManager.popBackStack(mContainer);
     }
 }

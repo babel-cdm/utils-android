@@ -243,7 +243,7 @@ public class NavigationManager {
             if (!currentFragment.customizedOnBackPressed()) {
                 if (currentFragment.onBackPressedTarget() == null || currentFragment.onBackPressedTarget().isEmpty()) {
                     fm.popBackStackImmediate();
-                    if (fm.getBackStackEntryCount() >= 1) {
+                    if (fm.getBackStackEntryCount() >= 1 && peek() != null) {
                         peek().onFragmentVisible();
                     }
                 } else {
