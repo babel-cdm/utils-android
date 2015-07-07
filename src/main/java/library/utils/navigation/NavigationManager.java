@@ -239,20 +239,23 @@ public class NavigationManager {
      */
     public void popBackStack(int containerId) {
         NavigationFragment currentFragment = (NavigationFragment) fm.findFragmentById(containerId);
-        if (!currentFragment.customizedOnBackPressed()) {
-            if (currentFragment.onBackPressedTarget().isEmpty()) {
-                fm.popBackStackImmediate();
-                if (fm.getBackStackEntryCount() >= 1) {
-                    peek().onFragmentVisible();
+        if (currentFragment != null) {
+            if (!currentFragment.customizedOnBackPressed()) {
+                if (currentFragment.onBackPressedTarget() == null || currentFragment.onBackPressedTarget().isEmpty()) {
+                    fm.popBackStackImmediate();
+                    if (fm.getBackStackEntryCount() >= 1) {
+                        peek().onFragmentVisible();
+                    }
+                } else {
+                    //Clean all until containerId
+                    popBackStack(currentFragment.onBackPressedTarget(), 0);
                 }
             } else {
-                //Clean all until containerId
-                popBackStack(currentFragment.onBackPressedTarget(), 0);
+                currentFragment.onBackPressed();
             }
-        } else {
-            currentFragment.onBackPressed();
         }
     }
+
 
     /**
      * Pops the Fragment with the tag, applying the necessary flags
@@ -283,6 +286,6 @@ public class NavigationManager {
      * @return TRUE if the activity is finishable, FALSE otherwise
      */
     public boolean canActivityFinish() {
-        return getBackStackEntryCount() <= 1 || peek() == null ||peek().isEntryFragment();
+        return getBackStackEntryCount() <= 1 || peek() == null || peek().isEntryFragment();
     }
 }

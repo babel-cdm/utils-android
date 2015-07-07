@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentActivity;
 import library.utils.R;
 import library.utils.navigation.interfaces.Exceptions;
 import library.utils.navigation.interfaces.NavigationController;
+import library.utils.navigation.interfaces.OnActionNavigation;
 
 public class NavigationActivity extends FragmentActivity implements NavigationController, Exceptions {
 
     protected Integer mContainer = null;
     protected NavigationManager mNavigationManager;
+    protected OnActionNavigation mOnActionNavigation;
 
     protected FragmentAnimation animation = new FragmentAnimation(
             R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
@@ -79,13 +81,13 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
         navigateUp();
     }
 
+    public boolean canActivityFinish(){
+        return mNavigationManager.canActivityFinish();
+    }
+
     @Override
     public void onBackPressed() {
-        if (mNavigationManager.canActivityFinish()) {
-            mNavigationManager.popBackStack(mContainer);
-            finish();
-        } else {
-            mNavigationManager.popBackStack(mContainer);
-        }
+        mOnActionNavigation.onBackPressedNavigation();
+        mNavigationManager.popBackStack(mContainer);
     }
 }
