@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import library.utils.R;
 import library.utils.navigation.interfaces.Exceptions;
 import library.utils.navigation.interfaces.NavigationController;
+import library.utils.navigation.interfaces.NavigationFragment;
 import library.utils.navigation.interfaces.OnActionNavigation;
 
 public class NavigationActivity extends FragmentActivity implements NavigationController, Exceptions {
@@ -74,7 +75,7 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
             throw new Exception(CONTAINER_EXCEPTION);
         }
 
-        mNavigationManager.addFragment(fragment, fragment.getTag(), animation, flags, mContainer);
+        mNavigationManager.addFragment(fragment, ((NavigationFragment)fragment).getFragmentTag(), animation, flags, mContainer);
     }
 
     public void onBackFromNavigation() throws Exception {
