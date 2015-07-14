@@ -83,4 +83,9 @@ public interface NavigationFragment {
      * @return Valid NavigationFragment tag to provide the jump.
      */
     String onBackPressedTarget();
+
+    /**
+     * Utility method to execute when the current frgament try be load, so does not load, but onReload is called.
+     */
+    void onReload();
 }

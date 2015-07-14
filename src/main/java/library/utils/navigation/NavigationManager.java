@@ -97,6 +97,16 @@ public class NavigationManager {
      * @param containerId Container ID where to insert the fragment
      */
     public void addFragment(Fragment frag, String tag, FragmentAnimation animation, int flags, int containerId) {
+
+        if (peek() != null) {
+            String tagNew = ((NavigationFragment)frag).getFragmentTag();
+            String currentTag = peek().getFragmentTag();
+            if (tagNew.equals(currentTag)) {
+                peek().onReload();
+                return;
+            }
+        }
+
         if (frag != null) {
             if (!((NavigationFragment) frag).isSingleInstance()) {
                 FragmentTransaction ft = fm.beginTransaction();
@@ -215,8 +225,12 @@ public class NavigationManager {
      * @throws java.lang.NullPointerException if there is no Fragment Added
      */
     protected NavigationFragment peek() {
-        return ((NavigationFragment) fm.findFragmentByTag(
-                fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName()));
+        if (fm.getBackStackEntryCount() > 0) {
+            return ((NavigationFragment) fm.findFragmentByTag(
+                    fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName()));
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -277,6 +291,7 @@ public class NavigationManager {
     }
 
     /**
+     * Returns if NavigationManager signals the Activity to finish.
      * Returns if NavigationManager signals the Activity to finish.
      * <p/>
      * This method is here instead of the

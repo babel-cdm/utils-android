@@ -14,7 +14,7 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
 
     protected Integer mContainer = null;
     protected NavigationManager mNavigationManager;
-    protected OnActionNavigation mOnActionNavigation;
+    protected OnActionNavigation sOnActionNavigation;
 
     protected FragmentAnimation animation = new FragmentAnimation(
             R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
@@ -88,6 +88,8 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
 
     @Override
     public void onBackPressed() {
-        mOnActionNavigation.onBackPressedNavigation();
+        if (sOnActionNavigation != null) {
+            sOnActionNavigation.onBackPressedNavigation();
+        }
     }
 }
