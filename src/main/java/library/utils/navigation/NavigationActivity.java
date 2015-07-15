@@ -10,6 +10,7 @@ import library.utils.navigation.interfaces.NavigationController;
 import library.utils.navigation.interfaces.NavigationFragment;
 import library.utils.navigation.interfaces.OnActionNavigation;
 
+@SuppressWarnings("unused")
 public class NavigationActivity extends FragmentActivity implements NavigationController, Exceptions {
 
     protected Integer mContainer = null;

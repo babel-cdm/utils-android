@@ -2,6 +2,7 @@ package library.utils;
 
 import android.os.Build;
 
+@SuppressWarnings("unused")
 public class AndroidVersion {
     private static final int VERSION_CODES_FROYO = 8;
     private static final int VERSION_CODES_GINGERBREAD = 9;

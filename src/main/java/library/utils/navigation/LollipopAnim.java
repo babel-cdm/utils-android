@@ -5,6 +5,7 @@ import android.view.View;
 /**
  * Component to allow supporting the new Lollipop Fragment Animations through Fraggle
  */
+@SuppressWarnings("unused")
 public class LollipopAnim {
 
     /**

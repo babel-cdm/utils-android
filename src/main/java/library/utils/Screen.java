@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
 
+@SuppressWarnings("unused")
 public class Screen {
 
     public enum ScreenSize {LARGE, NORMAL, SMALL, OTHER}
@@ -15,6 +16,11 @@ public class Screen {
 
     public static int dpToPx(Resources resources, float dp) {
         return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics()));
+    }
+
+    public static int convertToPixels(Resources resources, int nDP) {
+        final float conversionScale = resources.getDisplayMetrics().density;
+        return (int) ((nDP * conversionScale) + 0.5f) ;
     }
 
     public static ScreenSize getScreenSize(Resources resources) {

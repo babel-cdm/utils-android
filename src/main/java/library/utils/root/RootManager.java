@@ -2,6 +2,7 @@ package library.utils.root;
 
 import java.io.File;
 
+@SuppressWarnings("unused")
 public class RootManager {
     private static RootStatus mRootStatus = RootStatus.UNKNOWN;
     private static RootManager  mInstance;

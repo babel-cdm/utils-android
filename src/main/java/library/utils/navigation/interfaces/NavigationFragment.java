@@ -6,6 +6,7 @@ import library.utils.navigation.NavigationManager;
  * Interface that adds some utility methods to the Fragment Class to be used with
  * {@link NavigationManager FraggleManager}
  */
+@SuppressWarnings("unused")
 public interface NavigationFragment {
     /**
      * Flags the {@link NavigationManager FraggleManager} if there is to be expected

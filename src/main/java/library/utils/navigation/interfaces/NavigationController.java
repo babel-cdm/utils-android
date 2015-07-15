@@ -2,6 +2,7 @@ package library.utils.navigation.interfaces;
 
 import android.support.v4.app.Fragment;
 
+@SuppressWarnings("unused")
 public interface NavigationController {
 
     void navigateToSection(Fragment fragment, boolean addToBackStack) throws Exception;

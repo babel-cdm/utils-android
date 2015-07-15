@@ -6,6 +6,7 @@ import android.os.Looper;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.FutureTask;
 
+@SuppressWarnings("unused")
 public class AsyncJob<JobResult> {
 
     private static Handler uiHandler = new Handler(Looper.getMainLooper());

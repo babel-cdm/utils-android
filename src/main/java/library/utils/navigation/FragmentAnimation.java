@@ -6,6 +6,7 @@ package library.utils.navigation;
  * <p/>
  * The FragmentAnimation class accepts only R.animator ids from android.R classes.
  */
+@SuppressWarnings("unused")
 public class FragmentAnimation {
 
     /**

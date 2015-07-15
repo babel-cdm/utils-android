@@ -12,6 +12,7 @@ import library.utils.navigation.interfaces.NavigationFragment;
  * NavigationManager wraps some common operations over Android's FragmentManager concerning the
  * addition, query and removal of Fragments.
  */
+@SuppressWarnings("unused")
 public class NavigationManager {
 
     /**
