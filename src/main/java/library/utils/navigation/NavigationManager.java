@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import library.utils.navigation.interfaces.NavigationFragment;
 
 /**
@@ -100,7 +103,7 @@ public class NavigationManager {
     public void addFragment(Fragment frag, String tag, FragmentAnimation animation, int flags, int containerId) {
 
         if (peek() != null) {
-            String tagNew = ((NavigationFragment)frag).getFragmentTag();
+            String tagNew = ((NavigationFragment) frag).getFragmentTag();
             String currentTag = peek().getFragmentTag();
             if (tagNew.equals(currentTag)) {
                 peek().onReload();
@@ -232,6 +235,16 @@ public class NavigationManager {
         } else {
             return null;
         }
+    }
+
+    protected NavigationFragment getLastFragmentOfStack() {
+        for (int i = 0; i< fm.getFragments().size() ; i++) {
+            Fragment frag = fm.getFragments().get(i);
+            if (frag instanceof NavigationFragment && frag.isVisible()) {
+                return (NavigationFragment)frag;
+            }
+        }
+        return null;
     }
 
     /**

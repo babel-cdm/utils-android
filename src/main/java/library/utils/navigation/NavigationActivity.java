@@ -76,11 +76,7 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
             throw new Exception(CONTAINER_EXCEPTION);
         }
 
-        mNavigationManager.addFragment(fragment, ((NavigationFragment)fragment).getFragmentTag(), animation, flags, mContainer);
-    }
-
-    public void onBackFromNavigation() throws Exception {
-        navigateUp();
+        mNavigationManager.addFragment(fragment, ((NavigationFragment) fragment).getFragmentTag(), animation, flags, mContainer);
     }
 
     public boolean canActivityFinish(){
@@ -92,5 +88,13 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
         if (sOnActionNavigation != null) {
             sOnActionNavigation.onBackPressedNavigation();
         }
+    }
+
+    public int getCountBackNavigation() {
+        return mNavigationManager.getBackStackEntryCount();
+    }
+
+    public NavigationFragment getCurrentFragment() {
+        return mNavigationManager.getLastFragmentOfStack();
     }
 }
