@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
@@ -77,6 +79,19 @@ public class Utils {
         return b;
     }
 
+    /**
+     * Resource ID to bitmap with sepcific size
+     *
+     * @param res       resources
+     * @param size      the size we want the drawable to be
+     * @param drawable  the drawable to convert
+     * @return          the drawable converted
+     */
+    public static Drawable bitmapToDrawable(Resources res, int size, int drawable){
+        Bitmap bitmap = ((BitmapDrawable) res.getDrawable(drawable)).getBitmap();
+        int dp = Screen.dpToPx(res, size);
+        return new BitmapDrawable(res, Bitmap.createScaledBitmap(bitmap, dp, dp, true));
+    }
 
     private static BitmapFactory.Options getBitMapOption(Resources res) {
 
