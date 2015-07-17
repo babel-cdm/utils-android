@@ -13,22 +13,37 @@ import library.utils.navigation.interfaces.OnActionNavigation;
 @SuppressWarnings("unused")
 public class NavigationActivity extends FragmentActivity implements NavigationController, Exceptions {
 
-    protected Integer mContainer = null;
-    protected NavigationManager mNavigationManager;
+    protected Integer sContainer = null;
+    protected NavigationManager sNavigationManager;
     protected OnActionNavigation sOnActionNavigation;
 
-    protected FragmentAnimation animation = new FragmentAnimation(
+    protected FragmentAnimation sAnimation = new FragmentAnimation(
             R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNavigationManager = new NavigationManager();
-        mNavigationManager.initialize(getSupportFragmentManager());
+        this.sNavigationManager = new NavigationManager();
+        this.sNavigationManager.initialize(getSupportFragmentManager());
     }
 
-    protected void initContainer(int id) {
-        mContainer = id;
+    public NavigationActivity setContainer(int id) {
+        this.sContainer = id;
+        return this;
+    }
+
+    public NavigationActivity config() {
+        return this;
+    }
+
+    public NavigationActivity setAnimation(FragmentAnimation anim) {
+        this.sAnimation = anim;
+        return this;
+    }
+
+    public NavigationActivity setOnActionNavigation(OnActionNavigation listener) {
+        this. sOnActionNavigation = listener;
+        return this;
     }
 
     @Override
@@ -49,38 +64,38 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
 
     @Override
     public void navigateUp() throws Exception {
-        if (mContainer == null) {
+        if (sContainer == null) {
             throw new Exception(CONTAINER_EXCEPTION);
         }
 
-        mNavigationManager.popBackStack(mContainer);
+        sNavigationManager.popBackStack(sContainer);
     }
 
     @Override
     public void navigateUp(int levels) throws Exception {
-        if (mContainer == null) {
+        if (sContainer == null) {
             throw new Exception(CONTAINER_EXCEPTION);
         }
 
-        if (levels > mNavigationManager.getBackStackEntryCount()) {
+        if (levels > sNavigationManager.getBackStackEntryCount()) {
             throw new Exception(SIZE_STACK_EXCEPTION);
         }
 
         for (int i = 0; i < levels; i++) {
-            mNavigationManager.popBackStack(mContainer);
+            sNavigationManager.popBackStack(sContainer);
         }
     }
 
     private void setFragment(Fragment fragment, int flags) throws Exception {
-        if (mContainer == null) {
+        if (sContainer == null) {
             throw new Exception(CONTAINER_EXCEPTION);
         }
 
-        mNavigationManager.addFragment(fragment, ((NavigationFragment) fragment).getFragmentTag(), animation, flags, mContainer);
+        sNavigationManager.addFragment(fragment, ((NavigationFragment) fragment).getFragmentTag(), sAnimation, flags, sContainer);
     }
 
     public boolean canActivityFinish(){
-        return mNavigationManager.canActivityFinish();
+        return sNavigationManager.canActivityFinish();
     }
 
     @Override
@@ -91,10 +106,10 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
     }
 
     public int getCountBackNavigation() {
-        return mNavigationManager.getBackStackEntryCount();
+        return sNavigationManager.getBackStackEntryCount();
     }
 
     public NavigationFragment getCurrentFragment() {
-        return mNavigationManager.getLastFragmentOfStack();
+        return sNavigationManager.getLastFragmentOfStack();
     }
 }
