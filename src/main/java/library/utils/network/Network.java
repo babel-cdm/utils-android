@@ -5,11 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 @SuppressWarnings("unused")
-public class Utils {
+public class Network {
 
-    private static final String TAG_CLASS = Utils.class.getSimpleName();
+    private static final String TAG_CLASS = Network.class.getSimpleName();
 
-    public static boolean haveNetworkConnection(Context context) {
+    public boolean haveNetworkConnection(Context context) {
         return (checkNetworkConnectionMode1(context) || checkNetworkConnectionMode2(context)
                 || checkNetworkConnectionMode3(context) || checkNetworkConnectionMode4(context));
     }
