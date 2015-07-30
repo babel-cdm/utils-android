@@ -1,0 +1,35 @@
+log.Logger: Clase complementaria para log.
+
+	- Configurar nivel de log a mostrar:
+		LoggerManager.config().setShowLevel(Type.ALL);
+
+	- Como usar:
+		Logger log = LoggerManager.get();
+
+		log.print(TAG_APP, TAG_CLASS, txt); // Por defecto el typo es INFO.
+		log.print(Type, TAG_APP, TAG_CLASS, txt);
+
+images.Utils: Clase para el tratamiento de imagenes.
+
+navigation: Control de la navegación entre fragments
+ 	// Pediente de indicar ejemplos.		
+
+networks.Utils: Clase para comprobar el estado de la red.
+
+root.RootManager: Para comprobar si el dispositivo esta rooteado o no. (No es 100% efectivo)
+
+AndroidVersion: Funciones de ayuda para comprobar la versión del sistema operativo sobre el que esta corriendo la aplicación.
+
+Screen: Clase que comprueba las propiedades de la pantalla del dispositivo sobre el que esta corriendo la aplicación.
+
+XSSSaniter: Clase para limpiar un string y no contenga sentencias javascrit. 
+	- Como usar:
+		XSSSaniter.stripXSS(txt);
+
+Others: Diferentes utilidades: 
+	Verificar un email.
+	Verificar DNI/NIE.
+	Generar aleatorios.
+	Comprobar si hay tarjeta SIM.
+	Obtener el ID del dispositivo.
+	Generar un UUID. 		
