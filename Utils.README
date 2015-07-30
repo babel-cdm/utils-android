@@ -11,13 +11,14 @@ Logger: Clase complementaria para log.
 
 Images: Clase para el tratamiento de imagenes.
 	- Como usar:
-        ImagesManager.get().[Function];
+        ImagesManager.get().[Function];	
 
+Network: Clase para comprobar el estado de la red.
+	- Como usar:
+		NetworkManager.get().haveNetworkConnection()
 
 navigation: Control de la navegación entre fragments
- 	// Pediente de indicar ejemplos.		
-
-networks.Utils: Clase para comprobar el estado de la red.
+ 	// Pediente de indicar ejemplos.	
 
 root.RootManager: Para comprobar si el dispositivo esta rooteado o no. (No es 100% efectivo)
 

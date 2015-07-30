@@ -14,7 +14,7 @@ public class Network {
                 || checkNetworkConnectionMode3(context) || checkNetworkConnectionMode4(context));
     }
 
-    private static boolean checkNetworkConnectionMode1 (Context context) {
+    private static boolean checkNetworkConnectionMode1(Context context) {
         boolean haveConnectedWifi = false;
         boolean haveConnectedMobile = false;
 
@@ -31,7 +31,7 @@ public class Network {
         return (haveConnectedWifi || haveConnectedMobile);
     }
 
-    private static boolean checkNetworkConnectionMode2 (Context context) {
+    private static boolean checkNetworkConnectionMode2(Context context) {
         boolean status = false;
         try {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -49,13 +49,13 @@ public class Network {
         return status;
     }
 
-    private static boolean checkNetworkConnectionMode3 (Context context) {
+    private static boolean checkNetworkConnectionMode3(Context context) {
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
 
-    private static boolean checkNetworkConnectionMode4 (Context context) {
+    private static boolean checkNetworkConnectionMode4(Context context) {
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         boolean isWifiConn = networkInfo.isConnected();
