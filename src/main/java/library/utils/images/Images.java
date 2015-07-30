@@ -14,7 +14,7 @@ import library.utils.R;
 import library.utils.Screen;
 
 @SuppressWarnings("unused")
-public class Utils {
+public class Images {
     /**
      * Byte array to bitmap.
      *
@@ -22,7 +22,7 @@ public class Utils {
      * @param byteArray the byte array
      * @return the bitmap
      */
-    public static Bitmap byteArrayToBitmap(Resources res, byte[] byteArray) {
+    public Bitmap byteArrayToBitmap(Resources res, byte[] byteArray) {
 
         if (byteArray == null) return null;
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length, getBitMapOption(res));
@@ -34,7 +34,7 @@ public class Utils {
      * @param bitmap the bitmap
      * @return the string
      */
-    public static String bitmapToBase64(Bitmap bitmap) {
+    public String bitmapToBase64(Bitmap bitmap) {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
@@ -49,7 +49,7 @@ public class Utils {
      * @param input   the input
      * @return the bitmap
      */
-    public static Bitmap base64ToBitmap(Context context, String input) {
+    public Bitmap base64ToBitmap(Context context, String input) {
         return base64ToBitmap(context, input, true);
     }
 
@@ -61,7 +61,7 @@ public class Utils {
      * @param defaultImg the default img
      * @return the bitmap
      */
-    public static Bitmap base64ToBitmap(Context context, String input, boolean defaultImg) {
+    public Bitmap base64ToBitmap(Context context, String input, boolean defaultImg) {
         Bitmap b = null;
 
         if (defaultImg) {
@@ -87,13 +87,13 @@ public class Utils {
      * @param drawable  the drawable to convert
      * @return          the drawable converted
      */
-    public static Drawable bitmapToDrawable(Resources res, int size, int drawable){
+    public Drawable bitmapToDrawable(Resources res, int size, int drawable){
         Bitmap bitmap = ((BitmapDrawable) res.getDrawable(drawable)).getBitmap();
         int dp = Screen.dpToPx(res, size);
         return new BitmapDrawable(res, Bitmap.createScaledBitmap(bitmap, dp, dp, true));
     }
 
-    private static BitmapFactory.Options getBitMapOption(Resources res) {
+    private BitmapFactory.Options getBitMapOption(Resources res) {
 
         BitmapFactory.Options option = new BitmapFactory.Options();
         if (Screen.isLowOrMediumDensity(res)) {

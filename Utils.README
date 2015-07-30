@@ -1,4 +1,4 @@
-log.Logger: Clase complementaria para log.
+Logger: Clase complementaria para log.
 
 	- Configurar nivel de log a mostrar:
 		LoggerManager.config().setShowLevel(Type.ALL);
@@ -9,7 +9,10 @@ log.Logger: Clase complementaria para log.
 		log.print(TAG_APP, TAG_CLASS, txt); // Por defecto el typo es INFO.
 		log.print(Type, TAG_APP, TAG_CLASS, txt);
 
-images.Utils: Clase para el tratamiento de imagenes.
+Images: Clase para el tratamiento de imagenes.
+	- Como usar:
+        ImagesManager.get().[Function];
+
 
 navigation: Control de la navegación entre fragments
  	// Pediente de indicar ejemplos.		
