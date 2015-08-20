@@ -102,14 +102,14 @@ public class NavigationManager {
      */
     public void addFragment(Fragment frag, String tag, FragmentAnimation animation, int flags, int containerId) {
 
-        if (peek() != null) {
+/*        if (peek() != null && peek().isSingleInstance()) {
             String tagNew = ((NavigationFragment) frag).getFragmentTag();
             String currentTag = peek().getFragmentTag();
             if (tagNew.equals(currentTag)) {
                 peek().onReload();
                 return;
             }
-        }
+        }*/
 
         if (frag != null) {
             if (!((NavigationFragment) frag).isSingleInstance()) {
