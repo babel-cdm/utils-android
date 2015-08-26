@@ -112,7 +112,7 @@ public class NavigationManager {
         }*/
 
         if (frag != null) {
-            if (!((NavigationFragment) frag).isSingleInstance()) {
+            if (!((NavigationFragment) frag).isSingleInstance() || fm.getBackStackEntryCount() == 0) {
                 FragmentTransaction ft = fm.beginTransaction();
                 processClearBackstack(flags);
                 processAddToBackstackFlag(tag, flags, ft);
