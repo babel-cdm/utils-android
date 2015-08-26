@@ -53,6 +53,8 @@ public class NavigationManager {
      */
     protected FragmentManager fm;
 
+    protected FragmentAnimation animation;
+
     /**
      * Creates a new instance of Navigation Manager
      */
@@ -238,10 +240,10 @@ public class NavigationManager {
     }
 
     protected NavigationFragment getLastFragmentOfStack() {
-        for (int i = 0; i< fm.getFragments().size() ; i++) {
+        for (int i = 0; i < fm.getFragments().size(); i++) {
             Fragment frag = fm.getFragments().get(i);
             if (frag instanceof NavigationFragment && frag.isVisible()) {
-                return (NavigationFragment)frag;
+                return (NavigationFragment) frag;
             }
         }
         return null;
@@ -267,16 +269,34 @@ public class NavigationManager {
      */
     public void popBackStack(int containerId) {
         NavigationFragment currentFragment = (NavigationFragment) fm.findFragmentById(containerId);
+
+        if (fm.getBackStackEntryCount() <= 0) {
+            currentFragment.onBackPressed();
+            return;
+        }
+
         if (currentFragment != null) {
             if (!currentFragment.customizedOnBackPressed()) {
-                if (currentFragment.onBackPressedTarget() == null || currentFragment.onBackPressedTarget().isEmpty()) {
-                    fm.popBackStackImmediate();
-                    if (fm.getBackStackEntryCount() >= 1 && peek() != null) {
-                        peek().onFragmentVisible();
+                FragmentManager.BackStackEntry backEntry = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1);
+                NavigationFragment lastFragment = (NavigationFragment) fm.findFragmentByTag(backEntry.getName());
+                if (currentFragment.getFragmentTag().equals(lastFragment.getFragmentTag())) {
+                    if (currentFragment.onBackPressedTarget() == null || currentFragment.onBackPressedTarget().isEmpty()) {
+                        fm.popBackStackImmediate();
+                        if (fm.getBackStackEntryCount() >= 1 && peek() != null) {
+                            peek().onFragmentVisible();
+                        }
+                    } else {
+                        //Clean all until containerId
+                        popBackStack(currentFragment.onBackPressedTarget(), 0);
                     }
                 } else {
-                    //Clean all until containerId
-                    popBackStack(currentFragment.onBackPressedTarget(), 0);
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    //fragmentTransaction.setCustomAnimations();
+                    processAnimations(animation, fragmentTransaction);
+                    fm.beginTransaction().remove((Fragment) currentFragment)
+                            .add((Fragment) lastFragment, lastFragment.getFragmentTag())
+                            .commit();
+                    lastFragment.onFragmentVisible();
                 }
             } else {
                 currentFragment.onBackPressed();
@@ -316,5 +336,9 @@ public class NavigationManager {
      */
     public boolean canActivityFinish() {
         return getBackStackEntryCount() <= 1 || peek() == null || peek().isEntryFragment();
+    }
+
+    public void setAnimation(FragmentAnimation animation) {
+        this.animation = animation;
     }
 }

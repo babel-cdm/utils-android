@@ -25,6 +25,7 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
         super.onCreate(savedInstanceState);
         this.sNavigationManager = new NavigationManager();
         this.sNavigationManager.initialize(getSupportFragmentManager());
+        sNavigationManager.setAnimation(sAnimation);
     }
 
     public NavigationActivity setContainer(int id) {
@@ -38,6 +39,7 @@ public class NavigationActivity extends FragmentActivity implements NavigationCo
 
     public NavigationActivity setAnimation(FragmentAnimation anim) {
         this.sAnimation = anim;
+        sNavigationManager.setAnimation(sAnimation);
         return this;
     }
 
