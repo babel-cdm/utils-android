@@ -291,9 +291,8 @@ public class NavigationManager {
                     }
                 } else {
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    //fragmentTransaction.setCustomAnimations();
-                    processAnimations(animation, fragmentTransaction);
-                    fm.beginTransaction().remove((Fragment) currentFragment)
+                    fragmentTransaction.setCustomAnimations(animation.getPushInAnim(), animation.getPopOutAnim());
+                    fragmentTransaction.remove((Fragment) currentFragment)
                             .add((Fragment) lastFragment, lastFragment.getFragmentTag())
                             .commit();
                     lastFragment.onFragmentVisible();
