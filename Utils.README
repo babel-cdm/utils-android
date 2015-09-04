@@ -17,6 +17,14 @@ Network: Clase para comprobar el estado de la red.
 	- Como usar:
 		NetworkManager.get().haveNetworkConnection()
 
+Timer: Clase que ejecutar un temporizador.
+	- Como usar:
+		new Timer().startTimer(3000, this);
+		"this" corresponde al listener para cuando acabe el timer. Puede ser cualquier clase que implemente la interfaz
+		OnFinishedTimer
+	- Resultado
+		Cuando el timer acaba se ejecuta el método timerFinished() en el listener
+
 navigation: Control de la navegación entre fragments
  	// Pediente de indicar ejemplos.	
 
