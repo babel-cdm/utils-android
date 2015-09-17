@@ -5,6 +5,8 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
 
+    publishNonDefault true
+
     lintOptions {
         disable 'InvalidPackage'
         abortOnError false
@@ -28,8 +30,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            debuggable = true
+            minifyEnabled = false
+        }
+
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

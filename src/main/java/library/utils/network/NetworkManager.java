@@ -1,8 +1,5 @@
 package library.utils.network;
 
-import library.utils.images.DaggerImagesComponent;
-import library.utils.images.Images;
-
 public class NetworkManager {
 
     private static Params mParams;

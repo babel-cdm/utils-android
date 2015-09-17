@@ -455,7 +455,6 @@ public final class SecureData {
      */
     public interface Callback {
         void onSuccess();
-
         void onFail(Exception e);
     }
 
