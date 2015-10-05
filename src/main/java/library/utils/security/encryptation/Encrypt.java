@@ -24,7 +24,8 @@ public class Encrypt {
     // en este caso si es de tamaño 32 nos permite AES-256 (32 * 8)
     private String SYMMETRI_KEY = "7x-_2bIjMSp2IYCxGw4&o5K1xG#4X#SQ";
 
-    public Encrypt() {}
+    public Encrypt() {
+    }
 
     void setAESKey(String key) {
         SYMMETRI_KEY = key;
@@ -48,7 +49,7 @@ public class Encrypt {
             IvParameterSpec iv = new IvParameterSpec(new byte[16]);
             cipher.init(Cipher.ENCRYPT_MODE, key, iv);
             byte[] encryptionField = cipher.doFinal(message.getBytes("utf-8"));
-            return new String(Base64.encode(encryptionField,Base64.DEFAULT|Base64.NO_WRAP));
+            return new String(Base64.encode(encryptionField, Base64.DEFAULT | Base64.NO_WRAP));
 
         } catch (IllegalBlockSizeException e) {
             throw new EncryptException(e.toString());
@@ -98,7 +99,7 @@ public class Encrypt {
      * @param s the string to encript
      * @return the string
      */
-    public String ecryptMD5(String s) throws EncryptException {
+    public String encryptMD5(String s) throws EncryptException {
         try {
 
             MessageDigest md;
@@ -117,10 +118,29 @@ public class Encrypt {
                 hash += Integer.toHexString(b);
             }
 
-            return new String(Base64.encode(hash.getBytes(),Base64.URL_SAFE|Base64.NO_WRAP));
+            return new String(Base64.encode(hash.getBytes(), Base64.URL_SAFE | Base64.NO_WRAP));
 
         } catch (NoSuchAlgorithmException e) {
             throw new EncryptException(e.toString());
         }
     }
+
+    /**
+     * Ecrypt SHA256.
+     *
+     * @param s the string to encript
+     * @return the string
+     */
+    public String encryptSHA256(String s) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(s.getBytes());
+        return bytesToHex(md.digest());
+    }
+
+    public static String bytesToHex(byte[] bytes) {
+        StringBuffer result = new StringBuffer();
+        for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
+        return result.toString();
+    }
+
 }

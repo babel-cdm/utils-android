@@ -28,7 +28,9 @@ public class EncryptationManager {
                 .encryptationModule(new EncryptationModule()).build();
 
         Encrypt encrypt = component.provideEncrypt();
-        encrypt.setAESKey(mParams.getAESKey());
+        if (mParams != null) {
+            encrypt.setAESKey(mParams.getAESKey());
+        }
         return encrypt;
     }
 }
