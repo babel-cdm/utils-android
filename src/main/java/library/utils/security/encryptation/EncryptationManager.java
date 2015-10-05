@@ -6,6 +6,7 @@ public class EncryptationManager {
 
     public static final class Params {
         String AESKey;
+        String SHAKey;
 
         public String getAESKey() {
             return AESKey;
@@ -14,6 +15,15 @@ public class EncryptationManager {
         public Params setAESKey(String AESKey) {
             this.AESKey = AESKey;
             return this;
+        }
+
+
+        public String getSHAKey() {
+            return SHAKey;
+        }
+
+        public void setSHAKey(String SHAKey) {
+            this.SHAKey = SHAKey;
         }
     }
 
@@ -30,6 +40,7 @@ public class EncryptationManager {
         Encrypt encrypt = component.provideEncrypt();
         if (mParams != null) {
             encrypt.setAESKey(mParams.getAESKey());
+            encrypt.setSHAKey(mParams.getSHAKey());
         }
         return encrypt;
     }

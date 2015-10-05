@@ -1,6 +1,7 @@
 package library.utils.security.encryptation;
 
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -11,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.Mac;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -23,6 +25,8 @@ public class Encrypt {
     // Llave Simetrica es un String de tamaño múltiplo de 8
     // en este caso si es de tamaño 32 nos permite AES-256 (32 * 8)
     private String SYMMETRI_KEY = "7x-_2bIjMSp2IYCxGw4&o5K1xG#4X#SQ";
+    private String SHA_KEY = "7x-_2bIjMSp2IYCxGw4&o5K1xG#4X#SQ";
+    private static byte[] iv = "0000000000000000".getBytes();
 
     public Encrypt() {
     }
@@ -31,62 +35,54 @@ public class Encrypt {
         SYMMETRI_KEY = key;
     }
 
+    void setSHAKey(String key){
+        SHA_KEY = key;
+    }
+
     /**
      * Ecrypt AES.
      *
      * @param message the message
      * @return the string
      */
-    public String encryptAES(String message) throws EncryptException {
-
-        if (message == null || "".equals(message)) return null;
-
-        SecretKeySpec key = new SecretKeySpec(SYMMETRI_KEY.getBytes(), "AES");
-        Cipher cipher;
+    public String encryptAES(String message){
         try {
+            byte[] input = message.getBytes("utf-8");
 
-            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            IvParameterSpec iv = new IvParameterSpec(new byte[16]);
-            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
-            byte[] encryptionField = cipher.doFinal(message.getBytes("utf-8"));
-            return new String(Base64.encode(encryptionField, Base64.DEFAULT | Base64.NO_WRAP));
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] thedigest = md.digest(SYMMETRI_KEY.getBytes("utf-8"));
+            SecretKeySpec skc = new SecretKeySpec(thedigest, "AES");
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, skc, new IvParameterSpec(iv));
 
-        } catch (IllegalBlockSizeException e) {
-            throw new EncryptException(e.toString());
-        } catch (InvalidKeyException e) {
-            throw new EncryptException(e.toString());
-        } catch (BadPaddingException e) {
-            throw new EncryptException(e.toString());
-        } catch (NoSuchAlgorithmException e) {
-            throw new EncryptException(e.toString());
-        } catch (NoSuchPaddingException e) {
-            throw new EncryptException(e.toString());
-        } catch (UnsupportedEncodingException e) {
-            throw new EncryptException(e.toString());
-        } catch (InvalidAlgorithmParameterException e) {
-            throw new EncryptException(e.toString());
+            byte[] cipherText = new byte[cipher.getOutputSize(input.length)];
+            int ctLength = cipher.update(input, 0, input.length, cipherText, 0);
+            ctLength += cipher.doFinal(cipherText, ctLength);
+            return bytesToHex(cipherText);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 
     /**
      * Decrypt AES.
      *
-     * @param message the message
+     * @param encrypted the message
      * @return the string
      */
-    public String decryptAES(String message) throws EncryptException {
+    public String decryptAES(String encrypted) throws EncryptException {
 
-        if (message == null || "".equals(message)) return null;
+        try{
+            byte[] keyb = SYMMETRI_KEY.getBytes("utf-8");
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] thedigest = md.digest(keyb);
+            SecretKeySpec skey = new SecretKeySpec(thedigest, "AES");
+            Cipher dcipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            dcipher.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(iv));
 
-        SecretKeySpec key = new SecretKeySpec(SYMMETRI_KEY.getBytes(), "AES");
-        Cipher cipher;
-        try {
-            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            IvParameterSpec iv = new IvParameterSpec(new byte[16]);
-            cipher.init(Cipher.DECRYPT_MODE, key, iv);
-            byte[] inputByte = message.getBytes("UTF-8");
-            byte[] dencryptionField = cipher.doFinal(Base64.decode(inputByte, Base64.DEFAULT));
-            return new String(dencryptionField, "UTF-8");
+            byte[] clearbyte = dcipher.doFinal(hexStringToByteArray(encrypted));
+            return new String(clearbyte);
 
         } catch (Exception e) {
             throw new EncryptException(e.toString());
@@ -125,6 +121,8 @@ public class Encrypt {
         }
     }
 
+
+
     /**
      * Ecrypt SHA256.
      *
@@ -137,10 +135,37 @@ public class Encrypt {
         return bytesToHex(md.digest());
     }
 
+    public String encryptSHA256WithKey(String s) {
+
+        try {
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(SHA_KEY.getBytes(), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+            byte[] s53 = sha256_HMAC.doFinal(s.getBytes());
+            String hash = Base64.encodeToString(s53, Base64.DEFAULT);
+            Log.e("beadict", hash);
+            return hash;
+        } catch (Exception e) {
+            System.out.println("Error");
+            return null;
+        }
+    }
+
     public static String bytesToHex(byte[] bytes) {
         StringBuffer result = new StringBuffer();
-        for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
+        for (byte byt : bytes)
+            result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
         return result.toString();
+    }
+
+    public static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
     }
 
 }
