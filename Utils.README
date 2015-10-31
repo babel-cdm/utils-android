@@ -27,6 +27,8 @@ Timer: Clase que ejecutar un temporizador.
 
 navigation: Control de la navegación entre fragments
  	// Pediente de indicar ejemplos.	
+ 	- IMPORTANTE
+ 	Si el fragment que se va a cargar es el último de una rama de navegación, es importante poner el atributo stack = false, ya que no será necesario incluirlo en la pila, y afectaría al flujo normal de la misma.
 
 root.RootManager: Para comprobar si el dispositivo esta rooteado o no. (No es 100% efectivo)
 
