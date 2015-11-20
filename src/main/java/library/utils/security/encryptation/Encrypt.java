@@ -151,6 +151,22 @@ public class Encrypt {
         }
     }
 
+    public String encryptSHA256SimpleWithKey(String key, String s) {
+
+        try {
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(key.getBytes(), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+            byte[] s53 = sha256_HMAC.doFinal(s.getBytes());
+            String hash = Base64.encodeToString(s53, Base64.DEFAULT);
+            Log.e("beadict", hash);
+            return hash;
+        } catch (Exception e) {
+            System.out.println("Error");
+            return null;
+        }
+    }
+
     public static String bytesToHex(byte[] bytes) {
         StringBuffer result = new StringBuffer();
         for (byte byt : bytes)
