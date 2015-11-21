@@ -1,6 +1,7 @@
 package library.utils.images;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,10 +11,13 @@ import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.util.Base64;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 import library.utils.R;
 import library.utils.Screen;
@@ -87,12 +91,12 @@ public class Images {
     /**
      * Resource ID to bitmap with sepcific size
      *
-     * @param res       resources
-     * @param size      the size we want the drawable to be
-     * @param drawable  the drawable to convert
-     * @return          the drawable converted
+     * @param res      resources
+     * @param size     the size we want the drawable to be
+     * @param drawable the drawable to convert
+     * @return the drawable converted
      */
-    public Drawable bitmapToDrawable(Resources res, int size, int drawable){
+    public Drawable bitmapToDrawable(Resources res, int size, int drawable) {
         Bitmap bitmap = ((BitmapDrawable) res.getDrawable(drawable)).getBitmap();
         int dp = Screen.dpToPx(res, size);
         return new BitmapDrawable(res, Bitmap.createScaledBitmap(bitmap, dp, dp, true));
@@ -122,5 +126,64 @@ public class Images {
 
         Canvas canvas = new Canvas(resultBitmap);
         canvas.drawBitmap(resultBitmap, 0, 0, p);
+    }
+
+    public String saveToInternalSorage(Context applicationContext, Bitmap bitmapImage) {
+        ContextWrapper cw = new ContextWrapper(applicationContext);
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath = new File(directory, "profile.jpg");
+
+        FileOutputStream fos = null;
+        try {
+
+            fos = new FileOutputStream(mypath);
+
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return directory.getAbsolutePath();
+    }
+
+    public String saveToExternalStorage(String appName, String imageName, Bitmap image) {
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/" + appName.replaceAll(" ", ""));
+        myDir.mkdirs();
+        File file = new File(myDir, imageName + ".jpg");
+        if (file.exists()) file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+            return file.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Bitmap processPhoto(String path, int maxSize) {
+        File photo = new File(path);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap bitmap = BitmapFactory.decodeFile(photo.getAbsolutePath(), options);
+        do {
+            bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / 1.1), (int) (bitmap.getHeight() / 1.1), false);
+        } while (bitmap.getByteCount() > maxSize);
+        return bitmap;
+    }
+
+    public Bitmap processPhoto(Bitmap image, int maxSize) {
+        Bitmap bitmap = image;
+        do {
+            bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / 1.1), (int) (bitmap.getHeight() / 1.1), false);
+        } while (bitmap.getByteCount() > maxSize);
+        return bitmap;
     }
 }
