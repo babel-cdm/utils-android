@@ -12,6 +12,7 @@ public class AndroidVersion {
     private static final int VERSION_CODES_HONEYCOMB_MR2 = 13;
     private static final int VERSION_CODES_JELLY_BEAN = 16;
     private static final int VERSION_CODES_JELLY_BEAN_MR1 = 17;
+    private static final int VERSION_CODES_LOLLIPOP = 21;
 
     public static boolean isFroyoOrUp () {
         return (Build.VERSION.SDK_INT >= VERSION_CODES_FROYO);
@@ -51,5 +52,9 @@ public class AndroidVersion {
 
     public static boolean isJellyBeanMr1OrUp () {
         return (Build.VERSION.SDK_INT >= VERSION_CODES_JELLY_BEAN_MR1);
+    }
+
+    public static boolean isLollipopOrUp(){
+        return (Build.VERSION.SDK_INT >= VERSION_CODES_LOLLIPOP);
     }
 }
