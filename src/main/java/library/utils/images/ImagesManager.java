@@ -2,6 +2,7 @@ package library.utils.images;
 
 public class ImagesManager {
 
+    private static Images images;
     private static Params mParams;
 
     public static final class Params {
@@ -15,10 +16,9 @@ public class ImagesManager {
 
     public static Images get() {
 
-        ImagesComponent component = DaggerImagesComponent.builder()
-                .imagesModule(new ImagesModule()).build();
-
-        Images images = component.provideImages();
+        if(images == null){
+            images = new Images();
+        }
         return images;
     }
 }

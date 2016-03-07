@@ -3,6 +3,7 @@ package library.utils.log;
 public class LoggerManager {
 
     private static Params mParams;
+    private static Logger logger;
 
     public static final class Params {
         Type type;
@@ -24,11 +25,9 @@ public class LoggerManager {
 
     public static Logger get() {
 
-        LoggerComponent component = DaggerLoggerComponent.builder()
-                .loggerModule(new LoggerModule()).build();
-
-        Logger logger = component.provideLogger();
-        logger.setShowLevel(mParams.getType());
+        if (logger == null) {
+            logger = new Logger();
+        }
         return logger;
     }
 }

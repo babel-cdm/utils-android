@@ -2,6 +2,7 @@ package library.utils.security.encryptation;
 
 public class EncryptationManager {
 
+    private static Encrypt mEncrypt;
     private static Params mParams;
 
     public static final class Params {
@@ -34,14 +35,14 @@ public class EncryptationManager {
 
     public static Encrypt getEncrypt() {
 
-        EncryptationComponent component = DaggerEncryptationComponent.builder()
-                .encryptationModule(new EncryptationModule()).build();
-
-        Encrypt encrypt = component.provideEncrypt();
-        if (mParams != null) {
-            encrypt.setAESKey(mParams.getAESKey());
-            encrypt.setSHAKey(mParams.getSHAKey());
+        if(mEncrypt == null){
+            mEncrypt = new Encrypt();
         }
-        return encrypt;
+
+        if (mParams != null) {
+            mEncrypt.setAESKey(mParams.getAESKey());
+            mEncrypt.setSHAKey(mParams.getSHAKey());
+        }
+        return mEncrypt;
     }
 }

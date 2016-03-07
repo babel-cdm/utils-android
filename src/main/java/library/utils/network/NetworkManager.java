@@ -2,6 +2,7 @@ package library.utils.network;
 
 public class NetworkManager {
 
+    private static Network network;
     private static Params mParams;
 
     public static final class Params {
@@ -15,10 +16,9 @@ public class NetworkManager {
 
     public static Network get() {
 
-        NetworkComponent component = DaggerNetworkComponent.builder()
-                .networkModule(new NetworkModule()).build();
-
-        Network network = component.provideNetwork();
+        if (network == null) {
+            network = new Network();
+        }
         return network;
     }
 }
