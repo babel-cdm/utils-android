@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -182,8 +183,25 @@ public class Images {
     public Bitmap processPhoto(Bitmap image, int maxSize) {
         Bitmap bitmap = image;
         do {
-            bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / 1.1), (int) (bitmap.getHeight() / 1.1), false);
+            bitmap = getResizedBitmap(bitmap, (int) (bitmap.getWidth() / 1.1), (int) (bitmap.getHeight() / 1.1));
         } while (bitmap.getByteCount() > maxSize);
         return bitmap;
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
     }
 }
