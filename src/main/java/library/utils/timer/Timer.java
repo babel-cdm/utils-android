@@ -3,9 +3,6 @@ package library.utils.timer;
 import android.os.CountDownTimer;
 import android.util.Log;
 
-/**
- * Created by BABEL Sistemas de Información.
- */
 public class Timer {
 
     CountDownTimer mTimer;

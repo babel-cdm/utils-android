@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Created by BABEL Sistemas de Información.
- */
+
 public class AssetHelper {
 
     private static AssetHelper mInstance;
