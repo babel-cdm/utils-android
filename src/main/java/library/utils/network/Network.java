@@ -68,7 +68,7 @@ public class Network {
         NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         boolean isWifiConn = networkInfo.isConnected();
         networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        boolean isMobileConn = networkInfo.isConnected();
+        boolean isMobileConn = networkInfo!=null ?  networkInfo.isConnected() : false ;
 
         return (isWifiConn || isMobileConn);
     }
