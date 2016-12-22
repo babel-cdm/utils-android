@@ -1,14 +1,16 @@
 buildscript {
     repositories {
-        jcenter()
-        mavenLocal()
         mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'org.sonarqube.gradle:gradle-sonarqube-plugin:1.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
     }
 }
 
@@ -59,6 +61,6 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:23.0.0'
 
-    // Parseo de JSon
-    compile 'com.google.code.gson:gson:2.3.1'
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    compile 'com.google.code.gson:gson:2.4'
 }
