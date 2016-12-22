@@ -28,7 +28,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion '23.0.3'
 
-    publishNonDefault true
+//    publishNonDefault true
 
     lintOptions {
         disable 'InvalidPackage'
